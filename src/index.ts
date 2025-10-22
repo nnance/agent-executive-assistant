@@ -54,7 +54,13 @@ const responseStream = query({
 
 // Process streaming responses
 for await (const response of responseStream) {
-	if (response.type === "result" && response.subtype === "success") {
+	let sessionId = null;
+	// The first message is a system init message with the session ID
+	if (response.type === "system" && response.subtype === "init") {
+		sessionId = response.session_id;
+		console.log(`Session started with ID: ${sessionId}`);
+		// You can save this ID for later resumption
+	} else if (response.type === "result" && response.subtype === "success") {
 		console.log(response.result);
 	} else if (
 		response.type === "assistant" &&
