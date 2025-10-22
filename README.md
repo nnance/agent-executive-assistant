@@ -1,6 +1,10 @@
 # Agent Executive Assistant
 
-An AI-powered executive assistant that leverages Anthropic's models to help manage tasks, schedule meetings, and streamline workflows for busy professionals.
+An AI-powered executive assistant that leverages Anthropic's Agent SDK to help manage tasks, schedule meetings, and streamline workflows for busy professionals.
+
+## Overview
+
+This is an offline-first AI agent that minimizes reliance on external APIs and services, enabling autonomous task execution based on predefined criteria or triggers.  Designed to be used on local Apple Operating Systems, it ensures data privacy and security while providing robust assistance capabilities.
 
 ## Features
 
