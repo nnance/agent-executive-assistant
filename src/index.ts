@@ -1,6 +1,10 @@
 import "dotenv/config";
 import { query } from "@anthropic-ai/claude-agent-sdk";
 import { appleCalendarServer } from "./apple-tools/apple-calendar.js";
+import {
+	appleContactsServer,
+	ContactsManager,
+} from "./apple-tools/apple-contacts.js";
 import { appleNotesServer } from "./apple-tools/apple-notes.js";
 
 // Parse the first command line argument as the prompt
@@ -30,6 +34,7 @@ const responseStream = query({
 		mcpServers: {
 			appleNotes: appleNotesServer,
 			appleCalendar: appleCalendarServer,
+			appleContacts: appleContactsServer,
 		},
 		maxTurns: 10,
 		allowedTools: [
@@ -47,10 +52,26 @@ const responseStream = query({
 			"mcp__appleCalendar__searchEvents",
 			"mcp__appleCalendar__updateEvent",
 			"mcp__appleCalendar__getEventDetails",
+			"mcp__appleContacts__createContact",
+			"mcp__appleContacts__listContacts",
+			"mcp__appleContacts__getContact",
+			"mcp__appleContacts__searchContacts",
+			"mcp__appleContacts__deleteContact",
 		],
 		settingSources: ["project"], // Required to load CLAUDE.md from project
 	},
 });
+
+const contactsManager = new ContactsManager();
+
+contactsManager
+	.getContact("Rhonda Nance")
+	.then((contact) => {
+		console.log("Contact details for Rhonda Nance:", contact);
+	})
+	.catch((error) => {
+		console.error("Error retrieving contact:", error);
+	});
 
 // Process streaming responses
 for await (const response of responseStream) {
